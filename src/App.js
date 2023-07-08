@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Form from "./components/Form";
+import ColorList from "./components/ColorList";
+import Values from "values.js";
+import { ToastContainer, toast } from "react-toastify";
 
-function App() {
+const App = () => {
+  const [colors, setColors] = useState(new Values("#f15025").all(10));
+  const addColor = (color) => {
+    try {
+      const newColors = new Values(color).all(10);
+      setColors(newColors);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <Form addColor={addColor} />
+      <ColorList colors={colors} />
+      <ToastContainer position="top-center" />
+    </main>
   );
-}
+};
 
 export default App;
